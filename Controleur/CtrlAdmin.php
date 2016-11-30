@@ -1,5 +1,5 @@
 <?php
-	Class CtrlAdmin{
+	Class CtrlAdmin extends Controleur{
 
 		private $tableauErreurs = array();
 
@@ -44,15 +44,14 @@
 									$this->AjouterPersonnage();
 									break;
 				default:
-									require('./Vue/vueErreur.php');
+									$this->render('erreurs/vueErreur');
 									break;
 			}
 		}
 
 		/* Function affichant la fenêtre d'ajout d'un article */
 		public function AfficherFenetreAjoutArticle(){
-
-			require('./Vue/vueAjoutArticle.php');
+			$this->render('vueAjoutArticle');
 		}
 
 		/* Function qui ajoute un article dans la BDD
@@ -94,7 +93,12 @@
 					$ModeleAdmin->AjouterArticle($_POST['titre'],$dateParution,$_POST['image'],$_POST['contenu']);
 					$_REQUEST['action'] = "SansAction";
 					$CtrlUser = new CtrlUser();
-				} else { require('./Vue/vueAjoutArticle.php'); }
+				} else {
+					$d["tableauErreurs"] = $tableauErreurs;
+
+					$this->set($d);
+					$this->render('admin/vueAjoutArticle');
+				}
 			}
 		}
 
@@ -134,9 +138,6 @@
 				Validation::ValiderIdArticle($_GET['idArticle']);
 				$idArticle = $_GET['idArticle'];
 				Validation::ValiderTitre($_GET['titre']);
-				$titre = $_GET['titre'];
-
-        $contenu = $_GET['contenu'];
 
 
 				$dateParution = Nettoyage::SplitDate($_GET['dateParution']);
@@ -146,7 +147,20 @@
 				Validation::ValiderDateParution($jour, $mois, $annee);
 				$image = Nettoyage::ExtractNomPhotoFromPath($_GET['image']);
 
-				require('./Vue/vueModification.php');
+				/**
+				* A recheck pour optimisation
+				**/
+				$d["idArticle"] = $idArticle;
+				$d["titre"] = $_GET['titre'];
+				$d["contenu"] = $_GET['contenu'];
+				$d["jour"] = $jour;
+				$d["mois"] = $mois;
+				$d["annee"] = $annee;
+				$d["image"] = $image;
+				$d["tableauErreurs"] = $tableauErreurs;
+
+				$this->set($d);
+				$this->render('admin/vueModification');
 			}
 		}
 		public function AfficherFenetreModificationPersonnage(){
@@ -154,21 +168,26 @@
 			if(isset($_GET['idPersonnage'],$_GET['nom'], $_GET['origine'],  $_GET['detail'], $_GET['cheminPhoto'])){
 
 				Validation::ValiderIdPersonnage($_GET['idPersonnage']);
-				$idPersonnage = $_GET['idPersonnage'];
-				$nom = $_GET['nom'];
-
-				$origine = $_GET['origine'];
-				$detail= $_GET['detail'];
+				extract($_GET);
 				$image = Nettoyage::ExtractNomPhotoFromPathPerso($_GET['cheminPhoto']);
+				$d["idPersonnage"] = $idPersonnage;
+				$d["nom"] = $nom;
+				$d["idPersonnage"] = $idPersonnage;
+				$d["origine"] = $origine;
+				$d["detail"] = $detail;
+				$d["image"] = $image;
+				$d["tableauErreurs"] = $tableauErreurs;
 
-				require('./Vue/vueModificationPersonnage.php');
+				$this->set($d);
+				$this->render('admin/vueModificationPersonnage');
 			}
 		}
 
 
 		public function AfficherFenetreAjoutPersonnage(){
 
-			require('./Vue/vueAjoutPersonnage.php');
+			//require('./Vue/vueAjoutPersonnage.php');
+			$this->render('vueAjoutPersonnage');
 		}
 
 		public function AjouterPersonnage(){
@@ -195,7 +214,12 @@
 					$ModeleAdmin->AjouterPersonnage($_POST['nom'], $_POST['origine'], $_POST['details'],$_POST['photo']);
 					$_REQUEST['action'] = "AfficherFenetreAjoutPersonnage";
 					$CtrlAdmin = new CtrlAdmin();
-				} else { require('./Vue/vueAjoutPersonnage.php'); }
+				} else {
+					$d["tableauErreurs"] = $tableauErreurs;
+
+					$this->set($d);
+					$this->render('admin/vueAjoutPersonnage');
+				}
 			}
 		}
 
@@ -246,14 +270,19 @@
 					$CtrlUser = new CtrlUser();
 				} else {
 					extract($_POST);
-					/*$idArticle = $_POST['idArticle'];
-					$titre = $_POST['titre'];
-					$jour = $_POST['jour'];
-					$mois = $_POST['mois'];
-					$annee = $_POST['annee'];
-					$image = $_POST['image'];
-          $contenu = $_POST['contenu'];*/
-					require('./Vue/vueModification.php'); }
+
+					$d["idArticle"] = $idArticle;
+					$d["titre"] = $_GET['titre'];
+					$d["contenu"] = $_GET['contenu'];
+					$d["jour"] = $jour;
+					$d["mois"] = $mois;
+					$d["annee"] = $annee;
+					$d["image"] = $image;
+					$d["tableauErreurs"] = $tableauErreurs;
+
+					$this->set($d);
+					$this->render('admin/vueModification');
+				}
 			}
 		}
 		public function ModifierPersonnage(){
@@ -283,13 +312,19 @@
 					$_REQUEST['action'] = "SansAction";
 					$CtrlUser = new CtrlUser();
 				} else {
-					//extract($_POST);
-					$idPersonnage = $_POST['idPersonnage'];
-					$nom = $_POST['nom'];
-					$origine = $_POST['origine'];
-					$detail = $_POST['detail'];
+					extract($_POST);
 					$image = $_POST['cheminPhoto']; // ! changer nom
-					require('./Vue/vueModificationPersonnage.php'); }
+					$d["idPersonnage"] = $idPersonnage;
+					$d["nom"] = $nom;
+					$d["idPersonnage"] = $idPersonnage;
+					$d["origine"] = $origine;
+					$d["detail"] = $detail;
+					$d["image"] = $image;
+					$d["tableauErreurs"] = $tableauErreurs;
+
+					$this->set($d);
+					$this->render('admin/vueModificationPersonnage');
+				}
 			}
 		}
 

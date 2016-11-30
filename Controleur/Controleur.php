@@ -26,15 +26,17 @@ class Controleur{
 		extract($this->vars);
 
 		$contentView = $this->vars;
-		/*if(strpos($view,'/')===0){
-			$view = ROOT.DS.'view'.$view.'.php';
-		}else{
-			$view = ROOT.DS.'view'.DS.$this->request->controller.DS.$view.'.php';
-		}*/
+
 		ob_start();
-		require_once('./Vue/vueAccueil2.php');
+		//Gestion erreurs
+		if(isset($tableauErreurs)){
+				for($i = 0; $i < count($tableauErreurs); $i++){
+					echo "<p class='alert-danger'>".$tableauErreurs[$i]."</p>";
+				}
+		}
+		require_once('./Vue/'.$view.'.php');
 		$content_for_layout = ob_get_clean();
-		require('./Vue/vueLayout.php');
+		require('./Vue/layout/'.$this->layout.'.php');
 		$this->rendered = true;
 	}
 
@@ -51,19 +53,15 @@ class Controleur{
 			$this->vars[$key] = $value;
 		}
 	}
+
 	/**
-	* Permet de charger un model
+	* Permet de changer le layout (struture différente si co/deco etc...)
+	* @param $key nom du layout à changer
 	**/
-	/*function loadModel($name){
-		if(!isset($this->$name)){
-			$file = ROOT.DS.'model'.DS.$name.'.php';
-			require_once($file);
-			$this->$name = new $name();
-
-		}
-
+	public function setLayout($layout){
+		$this->layout = $layout;
 	}
-*/
+
 	/**
 	* Permet de gérer les erreurs 404
 	**/

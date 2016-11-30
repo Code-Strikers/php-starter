@@ -21,7 +21,10 @@ Class FrontCtrl{
 				$admin = $ModeleAdmin->IsAdmin();			/*On regarde si l'Admin est connecté*/
 
 				if($admin == null){
-					require('./Vue/vueConnexion.php');		/*S'il n'est pas co, on appelle la page de connection*/
+					/*S'il n'est pas co, on appelle la page de connection*/
+					$d["tableauErreurs"] = $tableauErreurs;
+					$this->set($d);
+					$this->render('vueConnexion');
 				} else { $CtrlAdmin = new CtrlAdmin(); }	/*S'il est co, on appelle le CONTROLLER pour qu'il effectue son action passée en param*/
 			}
 
@@ -37,14 +40,20 @@ Class FrontCtrl{
 						$ModeleAdmin = new ModeleAdmin();
 						if($ModeleAdmin->isAdmin()){				/* On regarde si l'admin est connecté car il peut faire l'action du Membre */
 							$CtrlMembre = new CtrlMembre();
-						} else { require('./Vue/vueConnexion.php'); }		/* Si personne n'est connecté on appelle la page de connexion */
+						} else {
+							$this->render('vueConnexion');
+						}		/* Si personne n'est connecté on appelle la page de connexion */
 					}
 				}
 			}
 
 			else{ $CtrlUser = new CtrlUser(); }														/*Si ce n'est pas une action Admin ni Membre, c'est une action User*/
 
-		} catch (Exception $e){ require('./vue/vueErreur.php'); }									/* Attrape les erreurs des CtrlAdmin, Membre, User*/
+		} catch (Exception $e){
+				$d["tableauErreurs"] = $tableauErreurs;
+				$this->set($d);
+				$this->render('erreurs/vueErreur');
+		}/* Attrape les erreurs des CtrlAdmin, Membre, User*/
 	}
 }
 ?>

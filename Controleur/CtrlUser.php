@@ -35,7 +35,7 @@
 									$this->AfficherCommentaire();
 									break;
 				default:
-									require('./Vue/vueErreur.php');
+									$this->render('erreurs/vueErreur');
 									break;
 			}
 		}
@@ -57,22 +57,18 @@
 			if($nbArticles != 0){
 				$listeArticles = $ModeleUser->GetArticles($pageCourante);
 			}
-			/***
-			* Mettre cette structure sous la forme d'une classe controleur héritage de toute classe de Controleur
-			***/
-			/*ob_start();
-			require('./Vue/vueAccueil2.php');
-			$content_for_layout = ob_get_clean();
-			require('./Vue/vueLayout.php'); */
-			$this->set($listeArticles);
-			$this->render('./Vue/vueAccueil2.php');
-			//require('./Vue/vueAccueil.php');
+
+			$d["listeArticles"] = $listeArticles;
+			$d["nbArticles"] = $nbArticles;
+			$d["pageMax"] = $pageMax;
+			$this->set($d);
+			$this->setLayout('accueil'); //Layout avec bannière par ex
+			$this->render('vueAccueil');
 		}
 
 		/* Function qui affiche le formulaire de connexion lorsque l'utilisateur le demande */
 		public function AfficherFenetreConnexion(){
-
-			require('./Vue/vueConnexion.php');
+			$this->render('vueConnexion');
 		}
 
 		/* 1 - Controle si l'id de l'Article passé par URL est un nombre au cas ou un utilisateur le modifierait. Soulève une erreur catcher dans le FRONT */
@@ -86,7 +82,11 @@
 				$ModeleUser = new ModeleUser();
 				$listeDetails = $ModeleUser->GetDetails($_GET['idArticle']);
 
-				require('./Vue/vueFicheDetails.php');
+				$d["tableauErreurs"] = $tableauErreurs;
+				$d["listeDetails"] = $listeDetails;
+
+				$this->set($d);
+				$this->render('vueFicheDetails');
 			}
 		}
 
@@ -99,14 +99,18 @@
 				$idPersonnage = Validation::ValiderIdPersonnage($_GET['idPersonnage']);
 				$ModeleUser = new ModeleUser();
 				$listeDetailPersonnage = $ModeleUser-> GetDetailsPersonnage($_GET['idPersonnage']);
-				require('./Vue/vueDetailPersonnage.php');
+				//require('./Vue/vueDetailPersonnage.php');
+				$d["tableauErreurs"] = $tableauErreurs;
+				$d["listeDetailPersonnage"] = $listeDetailPersonnage;
+
+				$this->set($d);
+				$this->render('vueDetailPersonnage');
 			}
 		}
 
 		/* Appelle la vue affichant la page d'inscription */
 		public function AfficherFenetreInscription(){
-
-			require('./Vue/vueInscription.php');
+			$this->render('vueInscription');
 		}
 
 		/* Controle les valeurs entrées par l'utilisateur lors de son inscription
@@ -134,7 +138,11 @@
 					$ModeleUser->AjouterMembre($_POST['login'], $_POST['password'], $_POST['email']);
 					$_REQUEST['action'] = "SansAction";
 					$CtrlUser = new CtrlUser();
-				} else { require('./Vue/vueInscription.php'); }
+				} else {
+						$d["tableauErreurs"] = $tableauErreurs;
+						$this->set($d);
+						$this->render('vueInscription');
+				}
 			}
 		}
 
@@ -142,7 +150,10 @@
 		public function AfficherFenetreBiographie(){
 			$ModeleUser = new ModeleUser();
 			$listePersonnage = $ModeleUser->GetPersonnage();
-			require('./Vue/vueBiographie.php');
+			
+			$d["listePersonnage"] = $listePersonnage;
+			$this->set($d);
+			$this->render('vueBiographie');
 		}
 
 	}
