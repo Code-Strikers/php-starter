@@ -1,10 +1,3 @@
-
-		<?php if(isset($tableauErreurs)){
-				for($i = 0; $i < count($tableauErreurs); $i++){
-					echo "<p class='alert-danger'>".$tableauErreurs[$i];
-				}
-			}
-		?>
 <div class="container">
 	<link href="form.css" rel="stylesheet">
 		<h1 class="text-center">Modifier votre mot de passe</h1>

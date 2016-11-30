@@ -1,13 +1,5 @@
     <link href="form.css" rel="stylesheet">
 
-
-    <?php if(isset($tableauErreurs)){
-        for($i = 0; $i < count($tableauErreurs); $i++){
-            echo "<p class=\"alert-danger\">".$tableauErreurs[$i];
-        }
-    }
-    ?>
-
     <form id="formAjouterPersonnage" class="form-signin" method="POST" action="./index.php">
             <input type='hidden' name='action' value='AjouterPersonnage'/>
             <h1 class="form-signin-heading"> Ajouter un personnage</h1>
@@ -34,4 +26,3 @@
             <input class="btn btn-primary" type='submit' value='Ajouter'/>
             <a href="./index.php?action=AfficherFenetreBiographie"><input class="btn btn-primary" type="button" value="Annuler"/></a>
         </form>
-    </article>

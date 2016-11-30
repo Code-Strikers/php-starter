@@ -19,8 +19,8 @@
                 <li><a href="./index.php?action=SansAction">Accueil</a></li>
                 <li><a href="./index.php?action=AfficherFenetreBiographie">Biographie</a></li>
                 <?php if(isset($_SESSION['login'])){
-                    echo "<li><a href=\"./index.php?action=SeDeconnecter\">Déconnexion</a></li>";
                     echo "<li><a href=\"./index.php?action=AfficherMonCompte\">Mon compte</a></li>";
+                    echo "<li><a href=\"./index.php?action=SeDeconnecter\">Déconnexion</a></li>";
                 } else {
                     echo "<li><a href=\"./index.php?action=AfficherFenetreInscription\">Inscription</a></li>";
                     echo "<li><a href=\"./index.php?action=AfficherFenetreConnexion\">Connexion</a></li>";

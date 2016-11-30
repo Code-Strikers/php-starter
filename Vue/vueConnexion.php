@@ -1,11 +1,4 @@
 <link href="form.css" rel="stylesheet">
-
-<?php if(isset($tableauErreurs)){
-				for($i = 0; $i < count($tableauErreurs); $i++){
-					echo "<p class=\"alert-danger\">".$tableauErreurs[$i];
-				}
-			}
-?>
         <form class="form-signin" id="formConnexion" method="POST" action="./index.php">
             <input type='hidden' name='action' value='SeConnecter'/>
             <h2 class="form-signin-heading text-center">Authentification</h2>

@@ -51,7 +51,7 @@
 
 		/* Function affichant la fenêtre d'ajout d'un article */
 		public function AfficherFenetreAjoutArticle(){
-			$this->render('vueAjoutArticle');
+			$this->render('admin/vueAjoutArticle');
 		}
 
 		/* Function qui ajoute un article dans la BDD
@@ -185,9 +185,7 @@
 
 
 		public function AfficherFenetreAjoutPersonnage(){
-
-			//require('./Vue/vueAjoutPersonnage.php');
-			$this->render('vueAjoutPersonnage');
+			$this->render('admin/vueAjoutPersonnage');
 		}
 
 		public function AjouterPersonnage(){
