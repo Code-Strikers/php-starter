@@ -7,11 +7,11 @@
 
 			if(isset($_REQUEST['action'])){
 				$action = $_REQUEST['action'];
-			} else { $action = "SansAction"; }
+			} else { $action = "Accueil"; }
 
 			switch($action){
-				case "SansAction":
-									$this->SansAction();
+				case "Accueil":
+									$this->Accueil();
 									break;
 				case "AfficherFenetreConnexion":
 									$this->AfficherFenetreConnexion();
@@ -19,14 +19,8 @@
 				case "AfficherDetails":
 									$this->AfficherDetails();
 									break;
-				case "AfficherDetailsPersonnage":
-									$this->AfficherDetailsPersonnage();
-									break;
 				case "AfficherFenetreInscription":
 									$this->AfficherFenetreInscription();
-									break;
-				case "AfficherFenetreBiographie":
-									$this->AfficherFenetreBiographie();
 									break;
 				case "Inscription":
 									$this->Inscription();
@@ -44,7 +38,7 @@
 		/* Function qui va chercher les Articles via le ModeleUser
 			1 - Controle si le numero de page est bien un nombre au cas ou un utilisateur le modifierait dans l'URL. Soulève une erreur catcher dans le FRONT
 			2 - Controle si le nombre d'article dans la BDD est différent de 0 ou non */
-		public function SansAction(){
+		public function Accueil(){
 
 			$ModeleUser = new ModeleUser();
 			$nbArticles = $ModeleUser->GetNbArticles();
@@ -90,24 +84,6 @@
 			}
 		}
 
-		public function AfficherDetailsPersonnage(){
-
-			if(isset($_GET['idPersonnage'])){
-				if(isset($_GET['tableauErreursMembre'])){
-					$tableauErreurs = $_GET['tableauErreursMembre'];
-				}
-				$idPersonnage = Validation::ValiderIdPersonnage($_GET['idPersonnage']);
-				$ModeleUser = new ModeleUser();
-				$listeDetailPersonnage = $ModeleUser-> GetDetailsPersonnage($_GET['idPersonnage']);
-				//require('./Vue/vueDetailPersonnage.php');
-				$d["tableauErreurs"] = $tableauErreurs;
-				$d["listeDetailPersonnage"] = $listeDetailPersonnage;
-
-				$this->set($d);
-				$this->render('vueDetailPersonnage');
-			}
-		}
-
 		/* Appelle la vue affichant la page d'inscription */
 		public function AfficherFenetreInscription(){
 			$this->render('vueInscription');
@@ -136,7 +112,7 @@
 				if(empty($tableauErreurs)){
 					$ModeleUser = new ModeleUser();
 					$ModeleUser->AjouterMembre($_POST['login'], $_POST['password'], $_POST['email']);
-					$_REQUEST['action'] = "SansAction";
+					$_REQUEST['action'] = "Accueil";
 					$CtrlUser = new CtrlUser();
 				} else {
 						$d["tableauErreurs"] = $tableauErreurs;
@@ -144,16 +120,6 @@
 						$this->render('vueInscription');
 				}
 			}
-		}
-
-
-		public function AfficherFenetreBiographie(){
-			$ModeleUser = new ModeleUser();
-			$listePersonnage = $ModeleUser->GetPersonnage();
-			
-			$d["listePersonnage"] = $listePersonnage;
-			$this->set($d);
-			$this->render('vueBiographie');
 		}
 
 	}

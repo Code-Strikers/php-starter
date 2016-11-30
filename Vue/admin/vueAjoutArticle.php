@@ -1,5 +1,5 @@
-	<link href="form.css" rel="stylesheet">
-	
+	<link href="Vue/styles/form.css" rel="stylesheet">
+
 	<form class="form-signin" id="formConnexion" method="POST" action="./index.php">
 		<input type='hidden' name='action' value='AjouterArticle'/>
 		<h1 class="form-signin-heading"> Ajouter un article</h1>
@@ -29,5 +29,5 @@
 			<textarea class="form-control" maxlength="499"  placeholder="Tapez ici votre superbe article Admin" name="contenu"></textarea>
         </div>
         <button class="btn btn-primary  " type="submit">Ajouter</button>
-        <a href="./index.php?action=SansAction"><input class="btn btn-primary" type="button" value="Annuler"/></a>
+        <a href="./index.php?action=Accueil"><input class="btn btn-primary" type="button" value="Annuler"/></a>
     </form>

@@ -31,7 +31,8 @@ class Controleur{
 		//Gestion erreurs
 		if(isset($tableauErreurs)){
 				for($i = 0; $i < count($tableauErreurs); $i++){
-					echo "<p class='alert-danger'>".$tableauErreurs[$i]."</p>";
+					echo "<div class=\"alert alert-danger\" role=\"alert\"><strong>Oups!</strong> ".$tableauErreurs[$i]."</div>";
+
 				}
 		}
 		require_once('./Vue/'.$view.'.php');

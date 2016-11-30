@@ -54,15 +54,13 @@
 					$ModeleMembre = new ModeleMembre();
 					if(strcmp($ModeleMembre->IdentificationAuthentification($_POST['login'], $_POST['password']), "membre")==0){
 						$ModeleMembre->SeConnecterMembre($_POST['login']);
-						$_REQUEST['action'] = "SansAction";
+						$_REQUEST['action'] = "Accueil";
 						$CtrlUser = new CtrlUser();
-						$this->setLayout('vueLayout');
 					} else if(strcmp($ModeleMembre->IdentificationAuthentification($_POST['login'],$_POST['password']), "admin")==0) {
 						$ModeleAdmin = new ModeleAdmin();
 						$ModeleAdmin->SeConnecterAdmin($_POST['login']);
-						$_REQUEST['action'] = "SansAction";
+						$_REQUEST['action'] = "Accueil";
 						$CtrlUser = new CtrlUser();
-						$this->setLayout('vueLayout');
 					} else { $tableauErreurs[] = "Login ou mot de passe incorrect"; }
 				}
 
@@ -79,7 +77,7 @@
 
 			$ModeleMembre = new ModeleMembre();
 			$ModeleMembre->SeDeconnecter();
-			$_REQUEST['action'] = "SansAction";
+			$_REQUEST['action'] = "Accueil";
 			$CtrlUser = new CtrlUser();
 			$this->setLayout('default');
 		}
@@ -120,7 +118,7 @@
 				if(empty($tableauErreurs)){
 					$ModeleMembre = new ModeleMembre();
 					$ModeleMembre->ModifierPassword($_SESSION['login'], $_POST['password']);
-					$_REQUEST['action'] = "SansAction";
+					$_REQUEST['action'] = "Accueil";
 					$CtrlUser = new CtrlUser();
 				} else {
 					$d["tableauErreurs"] = $tableauErreurs;

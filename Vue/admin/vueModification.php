@@ -1,4 +1,4 @@
-	<link href="form.css" rel="stylesheet">
+	<link href="Vue/styles/form.css" rel="stylesheet">
 
 	<form class="form-signin" id="formModifier" method="POST" action="./index.php">
 		<input type='hidden' name='action' value='ModifierArticle'/>
@@ -32,5 +32,5 @@
 			<textarea class="form-control" maxlength="499"  name="contenu" required><?php echo $contenu ?></textarea>
 		</div>
 		<button class="btn btn-primary " type="submit">Modifier</button>
-		<a href="./index.php?action=SansAction"><input class="btn btn-primary" type="button" value="Annuler"/></a>
+		<a href="./index.php?action=Accueil"><input class="btn btn-primary" type="button" value="Annuler"/></a>
 	</form>

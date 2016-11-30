@@ -22,26 +22,11 @@
 				case "AfficherFenetreModification":
 									$this->AfficherFenetreModification();
 									break;
-				case "AfficherFenetreModificationPersonnage":
-									$this->AfficherFenetreModificationPersonnage();
-									break;
 				case "ModifierArticle":
 									$this->ModifierArticle();
 									break;
-				case "ModifierPersonnage":
-									$this->ModifierPersonnage();
-									break;
 				case "SupprimerCommentaire":
 									$this->SupprimerCommentaire();
-									break;
-				case "SupprimerPersonnage":
-									$this->SupprimerPersonnage();
-									break;
-				case "AfficherFenetreAjoutPersonnage":
-									$this->AfficherFenetreAjoutPersonnage();
-									break;
-				case "AjouterPersonnage":
-									$this->AjouterPersonnage();
 									break;
 				default:
 									$this->render('erreurs/vueErreur');
@@ -91,7 +76,7 @@
 				if(empty($tableauErreurs)){
 					$ModeleAdmin = new ModeleAdmin();
 					$ModeleAdmin->AjouterArticle($_POST['titre'],$dateParution,$_POST['image'],$_POST['contenu']);
-					$_REQUEST['action'] = "SansAction";
+					$_REQUEST['action'] = "Accueil";
 					$CtrlUser = new CtrlUser();
 				} else {
 					$d["tableauErreurs"] = $tableauErreurs;
@@ -109,7 +94,7 @@
 				Validation::ValiderIdArticle($_GET['idArticle']);
 				$ModeleAdmin = new ModeleAdmin();
 				$ModeleAdmin->SupprimerArticle($_GET['idArticle']);
-				$_REQUEST['action'] = "SansAction";
+				$_REQUEST['action'] = "Accueil";
 				$CtrlUser = new CtrlUser();
 			}
 		}
@@ -163,63 +148,6 @@
 				$this->render('admin/vueModification');
 			}
 		}
-		public function AfficherFenetreModificationPersonnage(){
-
-			if(isset($_GET['idPersonnage'],$_GET['nom'], $_GET['origine'],  $_GET['detail'], $_GET['cheminPhoto'])){
-
-				Validation::ValiderIdPersonnage($_GET['idPersonnage']);
-				extract($_GET);
-				$image = Nettoyage::ExtractNomPhotoFromPathPerso($_GET['cheminPhoto']);
-				$d["idPersonnage"] = $idPersonnage;
-				$d["nom"] = $nom;
-				$d["idPersonnage"] = $idPersonnage;
-				$d["origine"] = $origine;
-				$d["detail"] = $detail;
-				$d["image"] = $image;
-				$d["tableauErreurs"] = $tableauErreurs;
-
-				$this->set($d);
-				$this->render('admin/vueModificationPersonnage');
-			}
-		}
-
-
-		public function AfficherFenetreAjoutPersonnage(){
-			$this->render('admin/vueAjoutPersonnage');
-		}
-
-		public function AjouterPersonnage(){
-			if(isset($_POST['nom'], $_POST['origine'], $_POST['details'], $_POST['photo'])){
-
-				try{
-					Validation::ValiderNomPersonnage($_POST['nom']);
-					$_POST['nom'] = Nettoyage::AjouterMajDebut($_POST['nom']);
-				} catch (Exception $e) { $tableauErreurs[] = $e->getMessage(); }
-				try{
-					Validation::ValiderNomPersonnage($_POST['origine']);
-					$_POST['origine'] = Nettoyage::AjouterMajDebut($_POST['origine']);
-				} catch (Exception $e) { $tableauErreurs[] = $e->getMessage(); }
-
-
-				if(!empty(trim($_POST['photo']))){
-					try{
-						$_POST['photo'] = Validation::ValiderNomImagePersonnage($_POST['photo']);
-					} catch (Exception $e) { $tableauErreurs[] = $e->getMessage(); }
-				} else { $_POST['photo'] = Nettoyage::CreateCheminPhotoPersonnage($_POST['photo']); }
-
-				if(empty($tableauErreurs)){
-					$ModeleAdmin = new ModeleAdmin();
-					$ModeleAdmin->AjouterPersonnage($_POST['nom'], $_POST['origine'], $_POST['details'],$_POST['photo']);
-					$_REQUEST['action'] = "AfficherFenetreAjoutPersonnage";
-					$CtrlAdmin = new CtrlAdmin();
-				} else {
-					$d["tableauErreurs"] = $tableauErreurs;
-
-					$this->set($d);
-					$this->render('admin/vueAjoutPersonnage');
-				}
-			}
-		}
 
 		/*
 		        Pensez à revalider le contenu !!
@@ -264,7 +192,7 @@
 				if(empty($tableauErreurs)){
 					$ModeleAdmin = new ModeleAdmin();
 					$ModeleAdmin->ModifierArticle($_POST['idArticle'],$_POST['titre'],$dateParution, $_POST['image'],$_POST['contenu']);
-					$_REQUEST['action'] = "SansAction";
+					$_REQUEST['action'] = "Accueil";
 					$CtrlUser = new CtrlUser();
 				} else {
 					extract($_POST);
@@ -280,48 +208,6 @@
 
 					$this->set($d);
 					$this->render('admin/vueModification');
-				}
-			}
-		}
-		public function ModifierPersonnage(){
-
-			if(isset($_POST['idPersonnage'],$_POST['nom'], $_POST['origine'],  $_POST['detail'], $_POST['cheminPhoto'])){
-
-				Validation::ValiderIdPersonnage($_POST['idPersonnage']);
-				if(isset($_POST['nom'], $_POST['origine'],  $_POST['detail'], $_POST['cheminPhoto'])) {
-
-
-
-
-					if (!empty(trim($_POST['cheminPhoto']))) {
-						try {
-							$_POST['cheminPhoto'] = Validation::ValiderNomImagePersonnage($_POST['cheminPhoto']);
-						} catch (Exception $e) {
-							$tableauErreurs[] = $e->getMessage();
-						}
-					} else {
-						$_POST['cheminPhoto'] = Nettoyage::CreateCheminPhotoPersonnage($_POST['cheminPhoto']);
-					}
-				}
-
-				if(empty($tableauErreurs)){
-					$ModeleAdmin = new ModeleAdmin();
-					$ModeleAdmin->ModifierPersonnage($_POST['idPersonnage'],$_POST['nom'], $_POST['origine'],  $_POST['detail'], $_POST['cheminPhoto']);
-					$_REQUEST['action'] = "SansAction";
-					$CtrlUser = new CtrlUser();
-				} else {
-					extract($_POST);
-					$image = $_POST['cheminPhoto']; // ! changer nom
-					$d["idPersonnage"] = $idPersonnage;
-					$d["nom"] = $nom;
-					$d["idPersonnage"] = $idPersonnage;
-					$d["origine"] = $origine;
-					$d["detail"] = $detail;
-					$d["image"] = $image;
-					$d["tableauErreurs"] = $tableauErreurs;
-
-					$this->set($d);
-					$this->render('admin/vueModificationPersonnage');
 				}
 			}
 		}

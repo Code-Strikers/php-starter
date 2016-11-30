@@ -119,18 +119,6 @@
 				} else { throw new Exception('Image inexistante');}
 			} else { throw new Exception; }
 		}
-
-		/* Function que le nom de l'image passé en paramètre existe dans le dossier d'images */
-		public static function ValiderNomImagePersonnage($nomImagePersonnage){
-
-			if(isset($nomImagePersonnage)){
-				$nomImagePersonnage = Nettoyage::CreateCheminPhotoPersonnage($nomImagePersonnage);
-				if(file_exists($nomImagePersonnage)){
-					return $nomImagePersonnage;
-				} else { throw new Exception('Image inexistante');}
-			} else { throw new Exception; }
-		}
-
 		/* Function qui vérifie l'id d'un Article
 			l'id d'un Article est toujours passé par URL ou par formulaire
 			Mais il est possible de le modifier dans l'url par exemple
@@ -150,17 +138,6 @@
 		}
 
 
-		public static function ValiderIdPersonnage($nombre){
-
-			if(isset($nombre) && !empty(trim($nombre)) && is_numeric($nombre)){
-				$ModeleUser = new ModeleUser();
-				if($ModeleUser->isIdPersonnageExistant($nombre)){
-					return true;
-				} else { throw new Exception; }
-			} else { throw new Exception; }
-		}
-
-
 		/* Function permettant de valider un commentaire */
 		public static function ValiderCommentaire($commentaire){
 
@@ -173,22 +150,7 @@
 				}
 			} else { throw new Exception('Commentaire vide'); }
 		}
-
-
-		/* Function validant le nom d'un personnage
-		=> Celui-ci doit contenir au moins 2 caractères jusqu'à 60 maximum
-		2 Exceptions:
-			1 - Si la chaine passée en paramètre ne correspond pas à l'expression
-			2 - Si la chaine est vide */
-		public static function ValiderNomPersonnage($chaine){
-
-			if(isset($chaine) && !empty(trim($chaine))){
-				if(preg_match(" /^[[:alnum:][:space:]ÀàÔôÈÉÊèéêÇçÎÏîïÛû\-.'()?]{1,60}$/ ", $chaine)){
-					return true;
-				} else { throw new Exception('nom de personnage invalide'); }
-			} else { throw new Exception('nom de personnage  manquant'); }
-		}
-
+    
 		/* Function validant le titre de l'article
 		=> Celui-ci doit contenir au moins 2 caractères jusqu'à 550 maximum
 		2 Exceptions:

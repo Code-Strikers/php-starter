@@ -1,6 +1,7 @@
 <?php
 session_name("BaseSite");
 session_start();
+$_SESSION["siteName"] = "Base Site";
 Class FrontCtrl{
 
 	public function __construct(){
@@ -9,11 +10,11 @@ Class FrontCtrl{
 
 			$tableauActionsMembre = array("SeConnecter", "SeDeconnecter", "AjouterCommentaire", "AfficherMonCompte", "ModifierPassword");												/*Tableaux des actions réalisables par un Membre & un Admin*/
 			$tableauActionsAdmin = array("AfficherFenetreAjoutArticle", "AjouterArticle", "SupprimerArticle",  /*Tableaux des actions réalisables par un Admin*/
-                                        "AfficherFenetreModification","AfficherFenetreModificationPersonnage","ModifierPersonnage", "ModifierArticle", "SupprimerCommentaire","AfficherFenetreAjoutPersonnage","AjouterPersonnage","SupprimerPersonnage");
+                                        "AfficherFenetreModification", "ModifierArticle", "SupprimerCommentaire");
 
 			if(isset($_REQUEST['action'])){		/*Si il y a une action passé au FRONT CONTROLLER*/
 				$action= $_REQUEST['action'];	/*On récupère l'action*/
-			} else { $action = "SansAction"; }	/*Sinon on met une action par défaut SansAction (qui va afficher la page d'accueil avec les titres)*/
+			} else { $action = "Accueil"; }	/*Sinon on met une action par défaut SansAction (qui va afficher la page d'accueil avec les titres)*/
 
 			if(in_array($action, $tableauActionsAdmin)){	/*Si c'est une action Admin*/
 
