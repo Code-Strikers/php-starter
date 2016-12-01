@@ -199,6 +199,8 @@
 
 			$BD = ClassBD::getInstance();
 
+			$password = sha1($password);
+
 			$req = 'UPDATE membre SET password = ? WHERE login = ?';
 			$param = array('1' => array($password, PDO::PARAM_STR),
 						   '2' => array($login, PDO::PARAM_STR));
@@ -207,25 +209,25 @@
 		}
 
 		/***************** ADMIN *****************/
-        /* Function permettant d'ajouter toutes les données liées à un Article dans la BDD*/
-        public function AjouterArticle($titre, $dateParution,$cheminPhoto,$contenu){
+    /* Function permettant d'ajouter toutes les données liées à un Article dans la BDD*/
+    public function AjouterArticle($titre, $dateParution,$cheminPhoto,$contenu){
 
-            $BD = ClassBD::getInstance();
+        $BD = ClassBD::getInstance();
 
-            $req = 'INSERT INTO article(titre, cheminPhoto, dateParution, contenu) VALUES(?, ?, ?, ?)';
-            $param =
-                array(
-                    '1' => array($titre, PDO::PARAM_STR),
-                    '2' => array($cheminPhoto, PDO::PARAM_STR),
-                    '3' => array($dateParution, PDO::PARAM_STR),
-                    '4' => array($contenu, PDO::PARAM_STR)
-                );
+        $req = 'INSERT INTO article(titre, cheminPhoto, dateParution, contenu) VALUES(?, ?, ?, ?)';
+        $param =
+            array(
+                '1' => array($titre, PDO::PARAM_STR),
+                '2' => array($cheminPhoto, PDO::PARAM_STR),
+                '3' => array($dateParution, PDO::PARAM_STR),
+                '4' => array($contenu, PDO::PARAM_STR)
+            );
 
 
-            $statement = $BD->query($req, $param);
+        $statement = $BD->query($req, $param);
 
-            $BD::destructInstance();
-        }
+        $BD::destructInstance();
+    }
 
 		/* Function qui permet de supprimer un article dont l'id est passé en paramètre
 			On supprime auparavant les commentaires asscociés à cet article */
@@ -251,11 +253,13 @@
 			$BD = ClassBD::getInstance();
 
 			$req = 'UPDATE article SET titre = ?, cheminPhoto = ?, dateParution = ?, contenu = ? WHERE idArticle = ?';
-			$param = array('1' => array($titre, PDO::PARAM_STR),
-				           '2' => array($cheminPhoto, PDO::PARAM_STR),
-							'3' => array($dateParution, PDO::PARAM_STR),
-							'4' => array($contenu, PDO::PARAM_STR),
-                            '5'=> array($idArticle, PDO::PARAM_INT));
+			$param = array(
+											'1' => array($titre, PDO::PARAM_STR),
+				           		'2' => array($cheminPhoto, PDO::PARAM_STR),
+											'3' => array($dateParution, PDO::PARAM_STR),
+											'4' => array($contenu, PDO::PARAM_STR),
+                      '5'=> array($idArticle, PDO::PARAM_INT)
+							);
 
 			$statement = $BD->query($req, $param);
 			$BD::destructInstance();
@@ -266,8 +270,10 @@
 
 			$BD = ClassBD::getInstance();
 			$req = 'DELETE FROM commentaire WHERE idArticle = ? AND login = ?';
-			$param = array('1' => array($idArticle, PDO::PARAM_INT),
-						   '2' => array($loginCommentaire, PDO::PARAM_STR));
+			$param = array(
+											'1' => array($idArticle, PDO::PARAM_INT),
+						   				'2' => array($loginCommentaire, PDO::PARAM_STR)
+							);
 			$statement = $BD->query($req, $param);
 
 			$BD::destructInstance();

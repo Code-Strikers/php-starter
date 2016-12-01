@@ -99,18 +99,6 @@
 			}
 		}
 
-		/* Function permettant de supprimer un Article et tout ce qui lui est associé en passant son id en paramètre */
-		public function SupprimerPersonnage(){
-
-			if(isset($_GET['idPersonnage'])){
-				Validation::ValiderIdPersonnage($_GET['idPersonnage']);
-				$ModeleAdmin = new ModeleAdmin();
-				$ModeleAdmin->SupprimerPersonnage($_GET['idPersonnage']);
-				$_REQUEST['action'] = "AfficherFenetreBiographie";
-				$CtrlUser = new CtrlUser();
-			}
-		}
-
 		/* Function qui affiche la fenetre de modification d'un article
 			1 - Les informations du titre sont toutes passées par URL
 			2 - Car on veut afficher ces informations par défaut dans le formulaire

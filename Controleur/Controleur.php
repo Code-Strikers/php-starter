@@ -35,6 +35,7 @@ class Controleur{
 
 				}
 		}
+		print_r(sha1("password"));
 		require_once('./Vue/'.$view.'.php');
 		$content_for_layout = ob_get_clean();
 		require('./Vue/layout/'.$this->layout.'.php');
