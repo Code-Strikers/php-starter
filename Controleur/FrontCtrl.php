@@ -2,7 +2,7 @@
 session_name("BaseSite");
 session_start();
 $_SESSION["siteName"] = "Base Site";
-Class FrontCtrl{
+Class FrontCtrl extends Controleur{
 
 	public function __construct(){
 
